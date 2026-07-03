@@ -527,10 +527,10 @@ export const food: Topic = {
         question:
           "Challenge: at a hawker centre you order laksa — a spicy noodle soup served in a bowl. You've never learnt its measure word. Which order is most natural?",
         options: [
-          "{{我要一杯叻沙。|Wǒ yào yì bēi lāsā.}}",
-          "{{我要一盘叻沙。|Wǒ yào yì pán lāsā.}}",
-          "{{我要一碗叻沙。|Wǒ yào yì wǎn lāsā.}}",
-          "{{我要一瓶叻沙。|Wǒ yào yì píng lāsā.}}",
+          "{{我要一杯叻沙。|Wǒ yào yì bēi lèshā.}}",
+          "{{我要一盘叻沙。|Wǒ yào yì pán lèshā.}}",
+          "{{我要一碗叻沙。|Wǒ yào yì wǎn lèshā.}}",
+          "{{我要一瓶叻沙。|Wǒ yào yì píng lèshā.}}",
         ],
         answerIndex: 2,
         explanation:
