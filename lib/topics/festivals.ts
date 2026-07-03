@@ -1253,7 +1253,7 @@ export const festivals: Topic = {
             question:
               "Read the passage, then answer in English: {{春节前，我们去牛车水买东西。年夜饭有鱼、饺子和年糕。爸爸说：年年有余！大年初一我们去拜年，我有八个红包！|Chūnjié qián, wǒmen qù Niúchēshuǐ mǎi dōngxi. Niányèfàn yǒu yú, jiǎozi hé niángāo. Bàba shuō: niánnián yǒu yú! Dànián chūyī wǒmen qù bàinián, wǒ yǒu bā gè hóngbāo!}} (a) Where does the family go shopping before New Year? (b) Name the three foods at the reunion dinner. (c) What does Dad exclaim? (d) How many hongbao does the writer collect?",
             modelAnswer:
-              "(a) Chinatown (Niuchheshui / 牛车水). (b) Fish, dumplings and New Year cake (niangao). (c) 'Nian nian you yu' — may every year bring a surplus. (d) Eight.",
+              "(a) Chinatown (Niucheshui / 牛车水). (b) Fish, dumplings and New Year cake (niangao). (c) 'Nian nian you yu' — may every year bring a surplus. (d) Eight.",
             markScheme: [
               "(a) Chinatown / 牛车水",
               "(b) fish, dumplings, niangao — all three",

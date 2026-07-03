@@ -778,11 +778,11 @@ export const weather: Topic = {
           {
             id: "wx-mcq-a-q12",
             question:
-              "Challenge: {{昨天下雨，今天多云，明天会晴天。|Zuótiān xià yǔ, jīntiān duōyún, míngtiān huì qíngtiān.}} What was the weather YESTERDAY?",
+              "Challenge: {{昨天下雨，今天多云，明天晴天。|Zuótiān xià yǔ, jīntiān duōyún, míngtiān qíngtiān.}} What was the weather YESTERDAY?",
             options: ["Rainy", "Cloudy", "Sunny", "Windy"],
             answerIndex: 0,
             explanation:
-              "Match the time words in order: {{昨天|zuótiān|yesterday}} pairs with 下雨 (rain), 今天 with 多云 (cloudy), 明天 with 会晴天 (will be sunny). The question asks about yesterday — rain.",
+              "Match the time words in order: {{昨天|zuótiān|yesterday}} pairs with 下雨 (rain), 今天 with 多云 (cloudy), 明天 with 晴天 (sunny). The question asks about yesterday — rain.",
             guideRef: "Comparing cities and reading the forecast",
             difficulty: "challenge",
             hints: [
