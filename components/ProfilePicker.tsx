@@ -4,12 +4,12 @@
 
 import React, { useState } from "react";
 import { useStore } from "@/lib/store";
-import type { Profile } from "@/lib/profileTypes";
+import type { Account, Profile } from "@/lib/profileTypes";
 
 const AVATARS = ["🐼", "🐉", "🦊", "🐰", "🐯", "🦁", "🐸", "🐧", "🦄", "🐨", "🐷", "🐹"];
 
 export default function ProfilePicker() {
-  const { account, selectProfile, refreshAuth, logout } = useStore();
+  const { account, selectProfile, applyAccount, logout } = useStore();
   const [adding, setAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [name, setName] = useState("");
@@ -31,15 +31,23 @@ export default function ProfilePicker() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, avatar }),
       });
+      const data = (await res.json().catch(() => null)) as {
+        error?: string;
+        account?: Account;
+        profile?: Profile;
+      } | null;
       if (!res.ok) {
-        const data = (await res.json().catch(() => null)) as { error?: string } | null;
         setError(data?.error ?? "Couldn't add that learner — try again.");
         return;
       }
-      await refreshAuth();
+      // Use the response's account directly — re-fetching /api/auth/me right
+      // after the write can race Blob storage and briefly show the old list.
+      if (data?.account) applyAccount(data.account);
       setAdding(false);
       setName("");
       setAvatar(AVATARS[0]);
+      // Jump the new learner straight in.
+      if (data?.profile) selectProfile(data.profile);
     } catch {
       setError("Couldn't reach the server — try again.");
     } finally {
@@ -57,12 +65,15 @@ export default function ProfilePicker() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ profileId: p.id, name: editName }),
       });
+      const data = (await res.json().catch(() => null)) as {
+        error?: string;
+        account?: Account;
+      } | null;
       if (!res.ok) {
-        const data = (await res.json().catch(() => null)) as { error?: string } | null;
         setError(data?.error ?? "Couldn't rename — try again.");
         return;
       }
-      await refreshAuth();
+      if (data?.account) applyAccount(data.account);
       setEditingId(null);
     } catch {
       setError("Couldn't reach the server — try again.");
@@ -83,12 +94,15 @@ export default function ProfilePicker() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ profileId: p.id }),
       });
+      const data = (await res.json().catch(() => null)) as {
+        error?: string;
+        account?: Account;
+      } | null;
       if (!res.ok) {
-        const data = (await res.json().catch(() => null)) as { error?: string } | null;
         setError(data?.error ?? "Couldn't remove that learner — try again.");
         return;
       }
-      await refreshAuth();
+      if (data?.account) applyAccount(data.account);
       setEditingId(null);
     } catch {
       setError("Couldn't reach the server — try again.");

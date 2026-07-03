@@ -55,6 +55,7 @@ interface StoreCtx {
   profile: Profile | null;
   progress: ProgressDoc;
   refreshAuth: () => Promise<void>;
+  applyAccount: (acc: Account) => void;
   selectProfile: (p: Profile | null) => void;
   logout: () => Promise<void>;
   // progress mutators
@@ -122,6 +123,18 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     refreshAuth();
   }, [refreshAuth]);
+
+  // Apply an account object returned directly by a mutation (signup, login,
+  // profile add/edit/delete). Avoids re-fetching /api/auth/me straight after a
+  // write, which can race Blob storage's read-after-write consistency and
+  // briefly serve the stale account.
+  const applyAccount = useCallback((acc: Account) => {
+    setAccount(acc);
+    const cur = profileRef.current;
+    const still = cur ? (acc.profiles.find((p) => p.id === cur.id) ?? null) : null;
+    setProfile(still);
+    setStatus(still ? "ready" : "no-profile");
+  }, []);
 
   // Load progress whenever the active profile changes: cache first, then server.
   useEffect(() => {
@@ -421,6 +434,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       profile,
       progress,
       refreshAuth,
+      applyAccount,
       selectProfile,
       logout,
       recordResult,
@@ -438,6 +452,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       profile,
       progress,
       refreshAuth,
+      applyAccount,
       selectProfile,
       logout,
       recordResult,

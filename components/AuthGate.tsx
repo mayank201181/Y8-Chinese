@@ -8,14 +8,14 @@ import { useStore } from "@/lib/store";
 type Tab = "login" | "signup";
 
 const FEATURES: { icon: string; text: string }[] = [
-  { icon: "🏮", text: "Seven fun topics — from greetings to shopping" },
+  { icon: "🏮", text: "Twelve fun topics — from greetings to festivals" },
   { icon: "🎴", text: "Flashcards with pinyin you can switch on and off" },
   { icon: "⭐", text: "Earn stars, streaks and ranks as you learn" },
   { icon: "👪", text: "One family account, a profile for each learner" },
 ];
 
 export default function AuthGate() {
-  const { refreshAuth } = useStore();
+  const { applyAccount, refreshAuth } = useStore();
   const [tab, setTab] = useState<Tab>("login");
   const [familyName, setFamilyName] = useState("");
   const [password, setPassword] = useState("");
@@ -42,12 +42,18 @@ export default function AuthGate() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+      const data = (await res.json().catch(() => null)) as {
+        error?: string;
+        account?: import("@/lib/profileTypes").Account;
+      } | null;
       if (!res.ok) {
-        const data = (await res.json().catch(() => null)) as { error?: string } | null;
         setError(data?.error ?? "Something went wrong — please try again.");
         return;
       }
-      await refreshAuth();
+      // Use the account from the response directly — re-fetching /api/auth/me
+      // straight after signup can race Blob's read-after-write consistency.
+      if (data?.account) applyAccount(data.account);
+      else await refreshAuth();
     } catch {
       setError("Couldn't reach the server — check your connection and try again.");
     } finally {
