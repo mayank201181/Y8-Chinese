@@ -1,5 +1,16 @@
 import type { MCQ, QA, Topic } from "./types";
 import { greetings } from "./topics/greetings";
+import { family } from "./topics/family";
+import { school } from "./topics/school";
+import { hobbies } from "./topics/hobbies";
+import { food } from "./topics/food";
+import { shopping } from "./topics/shopping";
+import { dailyRoutine } from "./topics/daily-routine";
+import { weather } from "./topics/weather";
+import { travel } from "./topics/travel";
+import { home } from "./topics/home";
+import { health } from "./topics/health";
+import { festivals } from "./topics/festivals";
 
 // Card metadata for all 12 topics — rendered on the home grid even before a
 // topic's content module lands (unloaded ones show as "coming soon").
@@ -26,7 +37,20 @@ export const TOPIC_META: {
   { id: "festivals", title: "Chinese Festivals & Culture", hanzi: "节日", pinyin: "jiérì", icon: "🏮", color: "yellow", blurb: "Chinese New Year, mooncakes, red packets and traditions." },
 ];
 
-export const TOPICS: Topic[] = [greetings];
+export const TOPICS: Topic[] = [
+  greetings,
+  family,
+  school,
+  hobbies,
+  food,
+  shopping,
+  dailyRoutine,
+  weather,
+  travel,
+  home,
+  health,
+  festivals,
+];
 
 export const TOPIC_BY_ID: Record<string, Topic> = Object.fromEntries(
   TOPICS.map((t) => [t.id, t])
