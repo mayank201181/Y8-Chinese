@@ -3,6 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  turbopack: {
+    root: import.meta.dirname,
+  },
   async rewrites() {
     return [
       { source: "/masterclass", destination: "/masterclass/index.html" },
