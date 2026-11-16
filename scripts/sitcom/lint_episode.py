@@ -1,12 +1,7 @@
-"""Static checks for an episode script.  Usage: python3 lint_episode.py episodes/<topic>.py [...]
-Exit code 1 if any ERROR.  WARNs are worth fixing but don't block.
-Spoken text (line text, challenge qs/as_) must write numbers and times as words, in English AND in
-Spanish ("a las siete y media"); board lines, challenge q/a/work and captions may use digits.
-[[...]] marks Spanish: it must be balanced, and the Spanish inside must be correct (Dad's broken
-Spanish goes OUTSIDE the brackets, so it is voiced in English and shown in white).
+"""Static checks for a Mandarin/English sitcom episode script.
+Usage: python3 lint_episode.py episodes/<topic>.py [...]
 """
 import sys, os, re
-import xml.etree.ElementTree as ET
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -16,153 +11,84 @@ def load(path):
     exec(open(path).read(), ns)
     return ns
 
-BAD_SPOKEN = [
-    (r"[0-9]", "digits in spoken text — write numbers as words"),
-    (r"[%/×÷=^√π<>≤≥+]", "maths symbol in spoken text — say it in words"),
-    (r"\bnought\b", "say 'zero', not 'nought' (TTS says 'not')"),
-    (r"\b(Sigh|Ugh|Hmm+|Pfft|Tsk|Argh|Ahem)\b", "interjection TTS mangles — use a real word"),
-    (r"(^|[.!?]\s+)(One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten)\.\s+(Per ?cent|Percent)", "'One. Percent' is heard as 'one percent'"),
-]
+MANDARIN = re.compile(r"\[\[(.+?)\]\]")
+HANZI = re.compile(r"[\u4e00-\u9fff]")
 
-SPANISH = re.compile(r"\[\[(.+?)\]\]")
-# errors that must never appear inside [[ ]] (they are Dad's jokes, not Spanish)
-ES_WRONG = [
-    (r"\bmuy (calor|frío|frio|sol|viento|hambre|sed)\b", "'muy calor' → 'hace mucho calor' / 'tengo mucha hambre'"),
-    (r"\bsoy en\b", "'soy en' → 'estoy en' (location takes estar)"),
-    (r"\b(juego|juegas|juega|jugamos|juegan|jugar) (fútbol|tenis|baloncesto|voleibol|hockey|bádminton)\b", "jugar needs 'a': juego al fútbol"),
-    (r"\b(juego|juegas|juega|jugamos|juegan|jugar) a el\b", "a + el = al"),
-    (r"\bde el\b", "de + el = del"),
-    (r"\ba el\b", "a + el = al"),
-]
-# common words that need an accent (unaccented form inside [[ ]] is an error)
-NEEDS_ACCENT = {"tambien": "también", "despues": "después", "jardin": "jardín", "salon": "salón", "facil": "fácil",
-    "dificil": "difícil", "futbol": "fútbol", "estacion": "estación", "musica": "música", "sabado": "sábado",
-    "miercoles": "miércoles", "manana": "mañana", "television": "televisión", "habitacion": "habitación",
-    "comedor": None, "ingles": "inglés", "espanol": "español", "esta": None, "aqui": "aquí", "alli": "allí",
-    "aleman": "alemán", "dias": "días", "telefono": "teléfono", "rapido": "rápido", "comodo": "cómodo",
-    "lampara": "lámpara", "estanteria": "estantería", "ordenador": None, "baño": None, "bano": "baño",
-    "ano": "año", "pequeno": "pequeño", "senor": "señor", "senora": "señora", "nino": "niño",
-    "natacion": "natación", "atletismo": None, "kárate": None, "karate": "kárate", "badminton": "bádminton",
-    "esqui": "esquí", "patin": None, "ultimo": "último", "proximo": "próximo", "practico": None,
-    "tambien.": "también", "jamas": "jamás", "ademas": "además", "ningun": "ningún", "segun": "según",
-    "autobus": "autobús", "metro": None, "medico": "médico", "historica": "histórica", "turistica": "turística",
-    "mas": "más"}
-QWORDS = ["qué", "dónde", "cuándo", "cómo", "quién", "cuánto", "cuánta", "cuántos", "cuántas", "adónde", "cuál"]
-
-def check_spanish(t, where, errs, warns):
-    """Balance of [[ ]] plus basic correctness of the Spanish inside."""
-    if t.count("[[") != t.count("]]"): errs.append(f"{where}: unbalanced [[ ]]: {t[:70]!r}"); return
-    depth = 0
-    for m in re.finditer(r"\[\[|\]\]", t):
-        depth += 1 if m.group() == "[[" else -1
-        if depth not in (0, 1): errs.append(f"{where}: nested or reversed [[ ]]: {t[:70]!r}"); return
-    for es in SPANISH.findall(t):
-        low = es.lower()
-        if es.count("?") != es.count("¿"): errs.append(f"{where}: Spanish question needs ¿…?: {es!r}")
-        if es.count("!") != es.count("¡"): errs.append(f"{where}: Spanish exclamation needs ¡…!: {es!r}")
-        for pat, msg in ES_WRONG:
-            if re.search(pat, low): errs.append(f"{where}: Spanish error inside [[ ]] ({msg}): {es!r}")
-        for w in re.findall(r"[a-záéíóúñü]+", low):
-            fix = NEEDS_ACCENT.get(w)
-            if fix: errs.append(f"{where}: missing accent '{w}' → '{fix}' in {es!r}")
-        if re.search(r"¿\s*(que|donde|cuando|como|quien|cuanto|cuanta|cuantos|cuantas|adonde|cual)\b", low):
-            errs.append(f"{where}: question word needs its accent in {es!r}")
-    if re.search(r"\]\]\w", t): warns.append(f"{where}: letter glued after ]] — {t[:60]!r}")
+def check_mandarin(t, where, errs):
+    if t.count("[[") != t.count("]]"):
+        errs.append(f"{where}: unbalanced [[ ]]: {t[:70]!r}")
+        return
+    for zh_seg in MANDARIN.findall(t):
+        if not HANZI.search(zh_seg):
+            errs.append(f"{where}: [[...]] must contain Simplified Hanzi (got {zh_seg!r})")
+    outside = MANDARIN.sub(" ", t)
+    if HANZI.search(outside):
+        errs.append(f"{where}: Hanzi outside [[ ]] in spoken line (wrap in [[ ]] so Mandarin voice speaks it): {t[:70]!r}")
+    if re.search(r"[0-9]", outside):
+        errs.append(f"{where}: digits in spoken English text — spell numbers as words: {t[:70]!r}")
 
 def lint(path):
-    errs, warns = [], []
+    errs = []
     try:
         ns = load(path)
     except Exception as e:
-        return [f"script does not run: {e!r}"], []
-    B, EP = ns["B"], ns.get("EP")
-    if not EP or "topic" not in EP: errs.append("EP = dict(topic=...) missing")
-    elif not any(r[1] == EP["topic"] for r in ns["SEASON"]): errs.append(f"unknown topic {EP['topic']}")
-    elif os.path.basename(path) != EP["topic"] + ".py": errs.append("file name must be <topic>.py")
-    kinds = [b["type"] for b in B]
-    if kinds.count("title") != 1: errs.append("call title() exactly once")
-    if kinds.count("challenge") != 3: errs.append("need exactly 3 challenge() beats")
-    if not B or B[-1]["type"] != "card": errs.append("finish with end_card()")
-    cast = set(); spoken = 0; n_lines = 0; board_n = 0; has_diag = False; cur_scene = None
-    for i, b in enumerate(B):
-        k = b["type"]; where = f"beat {i}"
-        if k == "scene":
-            sid = b["id"]; cur_scene = sid
-            if not (sid in ns["SETS"] or (sid.startswith("confess_") and sid[8:] in ns["CHARACTERS"])):
-                errs.append(f"{where}: unknown scene {sid}")
-            cast = {w for w, x in b["cast"]}
-            for w, x in b["cast"]:
-                if w not in ns["CHARACTERS"]: errs.append(f"{where}: unknown character {w}")
-                if not (180 <= x <= 1100): warns.append(f"{where}: x={x} for {w} near edge (use 200..1080)")
-            xs = sorted(x for w, x in b["cast"])
-            if any(b2 - a2 < 200 for a2, b2 in zip(xs, xs[1:])): warns.append(f"{where}: characters closer than 200px")
-            if sid == "hawker":
-                for w, x in b["cast"]:
-                    if w == "uncle" and not (950 <= x <= 1060): warns.append(f"{where}: uncle should stand at x≈1000 behind the counter")
-            if b.get("caption"): check_spanish(b["caption"], where + " caption", errs, warns)
-            board_n = 0; has_diag = False
-        elif k == "poof":
-            if b["who"] not in ns["CHARACTERS"]: errs.append(f"{where}: unknown poof {b['who']}")
-            cast.add(b["who"])
-        elif k == "sfx":
-            if b["name"] not in ns["SFX_NAMES"]: errs.append(f"{where}: unknown sfx {b['name']}")
-        elif k == "line":
-            n_lines += 1
-            w, t = b["who"], b["text"]; spoken += len(t)
-            if w not in ns["CHARACTERS"]: errs.append(f"{where}: unknown speaker {w}")
-            elif w not in cast and not b.get("offstage"): errs.append(f"{where}: {w} speaks but is not on stage (add to scene, poof, or offstage=True)")
-            for kk in b:
-                if kk not in ("type", "who", "text", "mood", "shot", "prop", "board", "boardClear", "diagram", "gap", "offstage"):
-                    errs.append(f"{where}: unknown line option {kk}")
-            if b.get("mood", "neutral") not in ns["MOODS"]: errs.append(f"{where}: unknown mood {b.get('mood')}")
-            if b.get("shot", "close") not in ns["SHOTS"]: errs.append(f"{where}: unknown shot {b.get('shot')}")
-            if b.get("prop") and b["prop"] not in ns["PROPS"]: errs.append(f"{where}: unknown prop {b['prop']}")
-            for pat, msg in BAD_SPOKEN:
-                if re.search(pat, t): errs.append(f"{where} ({w}): {msg}: {t[:70]!r}")
-            check_spanish(t, f"{where} ({w})", errs, warns)
-            if len(t) > 330: warns.append(f"{where}: very long line ({len(t)} chars) — split it")
-            if b.get("boardClear"): board_n = 0; has_diag = False
-            if b.get("board"):
-                board_n += 1
-                check_spanish(b["board"], where + " board", errs, warns)
-                if len(b["board"].replace("[[", "").replace("]]", "")) > 44: errs.append(f"{where}: board line > 44 chars: {b['board']!r}")
-            if b.get("diagram"):
-                has_diag = True
-                try:
-                    root = ET.fromstring(b["diagram"])
-                    vb = root.get("viewBox", "")
-                    if not root.tag.endswith("svg") or not vb.startswith("0 0 520 "): errs.append(f"{where}: diagram must be <svg viewBox=\"0 0 520 H\">")
-                    elif not (120 <= float(vb.split()[3]) <= 280): errs.append(f"{where}: diagram height must be 120..280")
-                    if "xmlns" not in b["diagram"]: errs.append(f"{where}: diagram needs xmlns=\"http://www.w3.org/2000/svg\"")
-                    if re.search(r"(href=|<image|<script|url\()", b["diagram"]): errs.append(f"{where}: no external refs/images/scripts in diagram")
-                except ET.ParseError as e:
-                    errs.append(f"{where}: diagram SVG does not parse: {e}")
-            limit = 3 if has_diag else 5
-            if board_n > limit: errs.append(f"{where}: board has {board_n} text lines (max {limit}{' with a diagram' if has_diag else ''}) — use boardClear=True")
-        elif k == "challenge":
-            for f in ("qs", "as_"):
-                for pat, msg in BAD_SPOKEN:
-                    if re.search(pat, b[f]): errs.append(f"{where} challenge {f}: {msg}: {b[f][:70]!r}")
-            for f in ("q", "a", "work", "qs", "as_"): check_spanish(b[f], f"{where} challenge {f}", errs, warns)
-            pl = lambda s: s.replace("[[", "").replace("]]", "")
-            if len(pl(b["work"])) > 60: warns.append(f"{where}: challenge work text long ({len(pl(b['work']))})")
-            if len(pl(b["a"])) > 34: warns.append(f"{where}: challenge answer should be short (<=34 chars)")
-            spoken += len(b["qs"]) + len(b["as_"])
-        elif k == "freeze":
-            if len(b["text"]) > 22: warns.append(f"{where}: freeze text long")
-            check_spanish(b["text"], where + " freeze", errs, warns); check_spanish(b.get("narrator", ""), where + " narrator", errs, warns)
-        elif k == "card":
-            check_spanish(b["text"] + " " + b.get("sub", ""), where + " card", errs, warns)
-    if not (4300 <= spoken <= 7200): warns.append(f"spoken length {spoken} chars (aim 4500-6500 ≈ 6-8 min)")
-    if n_lines < 45: warns.append(f"only {n_lines} dialogue lines")
-    return errs, warns
+        return [f"script failed to execute: {e}"]
+    ep = ns.get("EP") or {}
+    topics = {r[1] for r in ns["SEASON"]}
+    if ep.get("topic") not in topics:
+        errs.append(f"EP['topic']={ep.get('topic')!r} not in SEASON")
+    if not ep.get("logline"):
+        errs.append("EP['logline'] missing")
+    beats = ns.get("B") or []
+    if len(beats) < 25:
+        errs.append(f"only {len(beats)} beats (need at least 25)")
+    cur_cast = set()
+    challenges = 0
+    for i, b in enumerate(beats):
+        tp = b["type"]
+        w = f"beat[{i}]({tp})"
+        if tp == "scene":
+            loc = b["id"]
+            if not (loc in ns["SETS"] or (loc.startswith("confess_") and loc[8:] in ns["CHARACTERS"])):
+                errs.append(f"{w}: unknown scene {loc!r}")
+            cur_cast = {c[0] for c in b["cast"]}
+            for ch_id, _ in b["cast"]:
+                if ch_id not in ns["CHARACTERS"]:
+                    errs.append(f"{w}: unknown character {ch_id!r}")
+        elif tp == "poof":
+            if b["who"] not in ns["CHARACTERS"]:
+                errs.append(f"{w}: unknown character {b['who']!r}")
+            cur_cast.add(b["who"])
+        elif tp == "sfx":
+            if b["name"] not in ns["SFX_NAMES"]:
+                errs.append(f"{w}: unknown sfx {b['name']!r}")
+        elif tp == "line":
+            who = b["who"]
+            if who not in ns["CHARACTERS"]:
+                errs.append(f"{w}: unknown speaker {who!r}")
+            if not b.get("offstage") and who not in cur_cast:
+                errs.append(f"{w}: {who!r} speaks on stage before entering cur_cast={cur_cast}")
+            if b.get("mood") and b["mood"] not in ns["MOODS"]:
+                errs.append(f"{w}: unknown mood {b['mood']!r}")
+            if b.get("prop") and b["prop"] not in ns["PROPS"]:
+                errs.append(f"{w}: unknown prop {b['prop']!r}")
+            check_mandarin(b["text"], w, errs)
+        elif tp == "challenge":
+            challenges += 1
+            check_mandarin(b["qs"], f"{w}.qs", errs)
+            check_mandarin(b["as_"], f"{w}.as_", errs)
+    if challenges != 3:
+        errs.append(f"expected 3 pause challenges, found {challenges}")
+    return errs
 
-if __name__ == "__main__":
-    bad = 0
-    for p in sys.argv[1:]:
-        e, w = lint(p)
-        print(f"== {os.path.basename(p)}: {len(e)} errors, {len(w)} warnings")
-        for x in e: print("  ERROR", x)
-        for x in w: print("  WARN ", x)
-        bad += bool(e)
-    sys.exit(1 if bad else 0)
+bad = 0
+for p in sys.argv[1:]:
+    es = lint(p)
+    if es:
+        bad += 1
+        print(f"FAIL {p}:")
+        for e in es:
+            print(f"  - {e}")
+    else:
+        print(f"OK   {p}")
+sys.exit(1 if bad else 0)

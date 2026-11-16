@@ -2,8 +2,7 @@
 // Animated sitcom Season 1: 《哎呀！一家人》 Ai-Ya! Family — one episode per Year 8 Chinese topic.
 
 export const SHOW_TITLE = "《哎呀！一家人》 Ai-Ya! Family";
-export const SHOW_BLURB =
-  "Thirteen-year-old cousin Xiaoming arrives from Beijing to stay with the Tan-Rao family in their Singapore condo — and Dad insists his Mandarin tones are 'already native'. One bilingual episode per Year 8 Chinese topic with Simplified Hanzi & Pinyin on the board, ending with three pause challenges hosted by Laoshi Mei (梅老师).";
+export const SHOW_BLURB = "Thirteen-year-old cousin Xiaoming arrives from Beijing to stay with Meimei's family in Singapore — and Dad insists his Mandarin tones are 'already native'. One bilingual episode per Year 8 Chinese topic with Simplified Hanzi & Pinyin on screen, ending with three pause challenges hosted by Laoshi Mei (梅老师).";
 
 export interface SitcomEpisode {
   num: number;
@@ -16,7 +15,18 @@ export interface SitcomEpisode {
   poster: string;
 }
 
-export const SITCOM_EPISODES: SitcomEpisode[] = [];
+export const SITCOM_EPISODES: SitcomEpisode[] = [
+  {
+    "num": 1,
+    "topicId": "greetings-routine",
+    "topicShort": "Self-Intro & Routine",
+    "title": "Nǐ Hǎo, Seven A.M.!",
+    "logline": "Cousin Xiaoming arrives from Beijing, Dad accidentally calls Mum a horse because of Mandarin tones, and Laoshi Mei rescues everyone's morning routine with Subject + Time + Verb.",
+    "durationSec": 304,
+    "src": "/videos/greetings-routine.mp4",
+    "poster": "/videos/posters/greetings-routine.jpg"
+  }
+];
 
 export function sitcomEpisodeFor(topicId: string): SitcomEpisode | undefined {
   return SITCOM_EPISODES.find((e) => e.topicId === topicId);
