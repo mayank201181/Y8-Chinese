@@ -62,7 +62,7 @@ export function AppGate({ children }: { children: ReactNode }) {
           <SiteHeader />
         </ErrorBoundary>
       ) : null}
-      <main className={`mx-auto w-full max-w-5xl px-4 pt-4 ${showChrome ? "pb-28 md:pb-12" : "pb-12"}`}>{body}</main>
+      <main className={`mx-auto w-full max-w-5xl px-4 pt-4 ${showChrome ? "pb-28" : "pb-12"}`}>{body}</main>
       {showChrome ? (
         <ErrorBoundary silent>
           <MobileNav />

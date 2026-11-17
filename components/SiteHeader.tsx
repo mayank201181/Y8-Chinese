@@ -10,6 +10,7 @@ import { addDaysISO, todayISO } from "@/lib/dates";
 const NAV = [
   { href: "/", label: "Home", icon: "🏠" },
   { href: "/topics", label: "Topics", icon: "📚" },
+  { href: "/watch", label: "Watch", icon: "🎬" },
   { href: "/episodes", label: "Sitcom", icon: "📺" },
   { href: "/daily", label: "Daily 5", icon: "🎯" },
   { href: "/review", label: "Review", icon: "🔁" },
@@ -153,11 +154,11 @@ export function MobileNav() {
   const path = usePathname() ?? "/";
 
   return (
-    <nav className="no-print fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden" aria-label="Main">
-      <div className="mx-auto grid max-w-md grid-cols-6">
+    <nav className="no-print fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur" aria-label="Bottom navigation">
+      <div className="mx-auto grid max-w-2xl grid-cols-7 px-1">
         {NAV.map((n) => (
-          <Link key={n.href} href={n.href} className={`flex flex-col items-center gap-0.5 py-2 text-[0.65rem] font-bold ${active(path, n.href) ? "text-brand" : "text-ink-2"}`} aria-current={active(path, n.href) ? "page" : undefined}>
-            <span className="text-xl" aria-hidden>
+          <Link key={n.href} href={n.href} className={`flex flex-col items-center gap-0.5 py-2 text-[0.62rem] font-bold transition-colors sm:text-xs ${active(path, n.href) ? "text-brand" : "text-ink-2 hover:text-ink"}`} aria-current={active(path, n.href) ? "page" : undefined}>
+            <span className="text-lg sm:text-xl" aria-hidden>
               {n.icon}
             </span>
             {n.label}
