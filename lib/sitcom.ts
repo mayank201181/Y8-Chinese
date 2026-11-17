@@ -25,6 +25,116 @@ export const SITCOM_EPISODES: SitcomEpisode[] = [
     "durationSec": 304,
     "src": "/videos/greetings-routine.mp4",
     "poster": "/videos/posters/greetings-routine.jpg"
+  },
+  {
+    "num": 2,
+    "topicId": "time-measure-words",
+    "topicShort": "Dates & Measure Words",
+    "title": "Two Books Or Èr Books?",
+    "logline": "Dad tries to buy two Mandarin textbooks with 'er ben shu', scrambles Tuesday's date backwards, and meets the mighty army of Chinese measure words.",
+    "durationSec": 301,
+    "src": "/videos/time-measure-words.mp4",
+    "poster": "/videos/posters/time-measure-words.jpg"
+  },
+  {
+    "num": 3,
+    "topicId": "weather",
+    "topicShort": "Weather & Forecasts",
+    "title": "Thirty-Two Degrees Of Drizzle",
+    "logline": "Singapore serves sunshine and a tropical downpour in the same five minutes, Dad yells 'wo shi re', and Laoshi Mei rescues the weather forecast.",
+    "durationSec": 270,
+    "src": "/videos/weather.mp4",
+    "poster": "/videos/posters/weather.jpg"
+  },
+  {
+    "num": 4,
+    "topicId": "seasons",
+    "topicShort": "Seasons & Clothing",
+    "title": "Puffer Jacket On Orchard Road",
+    "logline": "Because the calendar says December, Dad wears an Arctic puffer jacket to Orchard Road and tries to 'chuan' a woolly hat, sparking a Singapore-versus-Beijing climate showdown.",
+    "durationSec": 271,
+    "src": "/videos/seasons.mp4",
+    "poster": "/videos/posters/seasons.jpg"
+  },
+  {
+    "num": 5,
+    "topicId": "illness",
+    "topicShort": "Illness & Doctor",
+    "title": "Doctor, My Tones Hurt",
+    "logline": "After overheating in his puffer jacket and gulping three bowls of iced cendol, Dad catches a dramatic cold and learns how to describe symptoms, see a doctor, and give Mandarin health advice.",
+    "durationSec": 252,
+    "src": "/videos/illness.mp4",
+    "poster": "/videos/posters/illness.jpg"
+  },
+  {
+    "num": 6,
+    "topicId": "hobbies",
+    "topicShort": "Hobbies & Sports",
+    "title": "Don't Kick The Basketball!",
+    "logline": "Dad tries to 'ti' a basketball into orbit on the community court, mixes up hand and foot sport verbs, and learns how Mandarin splits learned skills from permission.",
+    "durationSec": 267,
+    "src": "/videos/hobbies.mp4",
+    "poster": "/videos/posters/hobbies.jpg"
+  },
+  {
+    "num": 7,
+    "topicId": "leisure-plans",
+    "topicShort": "Weekend Plans",
+    "title": "Operation Sentosa Saturday",
+    "logline": "Everyone has rival plans for Saturday in Singapore, Dad parks frequency adverbs at the wrong end of the sentence, and Meimei negotiates a cinema trip with polite Mandarin invitations.",
+    "durationSec": 249,
+    "src": "/videos/leisure-plans.mp4",
+    "poster": "/videos/posters/leisure-plans.jpg"
+  },
+  {
+    "num": 8,
+    "topicId": "vegetables-fruits",
+    "topicShort": "Fruits & Market",
+    "title": "King Of Durian Bargaining",
+    "logline": "At Uncle Seng's wet market stall, Dad mixes up half-kilo 'jin' with kilograms, sniffs his first Mao Shan Wang durian, and learns the art of Mandarin bargaining.",
+    "durationSec": 277,
+    "src": "/videos/vegetables-fruits.mp4",
+    "poster": "/videos/posters/vegetables-fruits.jpg"
+  },
+  {
+    "num": 9,
+    "topicId": "three-meals",
+    "topicShort": "Three Meals & Drinks",
+    "title": "Congee, Chicken Rice, Repeat",
+    "logline": "Beijing breakfast meets Singapore hawker lunch as Xiaoming craves steamed buns, Meimei champions Hainanese chicken rice, and Dad forgets the verb 'chi' before meals.",
+    "durationSec": 245,
+    "src": "/videos/three-meals.mp4",
+    "poster": "/videos/posters/three-meals.jpg"
+  },
+  {
+    "num": 10,
+    "topicId": "eating-out",
+    "topicShort": "Eating Out",
+    "title": "Extra Spicy, Hold The Tears",
+    "logline": "The family dines out at Uncle Seng's Sichuan-Singapore Noodle House, where Dad forgets to ask for 'not too spicy', learns all five Mandarin flavours through tears, and calls for the bill.",
+    "durationSec": 242,
+    "src": "/videos/eating-out.mp4",
+    "poster": "/videos/posters/eating-out.jpg"
+  },
+  {
+    "num": 11,
+    "topicId": "sentence-patterns",
+    "topicShort": "Sentence Patterns",
+    "title": "Time Before Place Before Dumplings",
+    "logline": "Dad builds an English-ordered Frankenstein sentence, so Laoshi Mei turns the living room into a Lego grammar workshop for STPV word order, comparisons, and paired connectors.",
+    "durationSec": 279,
+    "src": "/videos/sentence-patterns.mp4",
+    "poster": "/videos/posters/sentence-patterns.jpg"
+  },
+  {
+    "num": 12,
+    "topicId": "tenses-particles",
+    "topicShort": "Time & Aspect Particles",
+    "title": "Been There, Ate That (Guò!)",
+    "logline": "In the Season One finale, Xiaoming prepares to fly home for the holidays while Dad commits the ultimate 'mei qu le' crime, triggering a grand showdown of Mandarin time particles and negation.",
+    "durationSec": 279,
+    "src": "/videos/tenses-particles.mp4",
+    "poster": "/videos/posters/tenses-particles.jpg"
   }
 ];
 

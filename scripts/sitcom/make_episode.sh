@@ -28,4 +28,6 @@ for T in "$@"; do
   rm -f "out/$T"/part*.mp4
   echo "=== $T: done $(du -h "$ROOT/public/videos/$T.mp4" | cut -f1) $("$FFPROBE" -v error -show_entries format=duration -of csv=p=0 "$ROOT/public/videos/$T.mp4")s"
 done
-"$PY" gen_manifest.py
+if [ -z "${SKIP_MANIFEST:-}" ]; then
+  "$PY" gen_manifest.py
+fi

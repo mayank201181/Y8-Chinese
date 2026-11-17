@@ -78,7 +78,9 @@ def tts_one(who, text, kind):
         else:
             s, sr = kokoro().create(text, voice=voice_id, speed=speed, lang=v["lang"])
         assert sr == SR
-        sf.write(f, s, sr)
+        tmp_f = f"{f}.{os.getpid()}.tmp.wav"
+        sf.write(tmp_f, s, sr)
+        os.replace(tmp_f, f)
     a, sr = sf.read(f, dtype="float32")
     if a.ndim > 1:
         a = a.mean(1)
