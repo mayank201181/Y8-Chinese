@@ -10,6 +10,7 @@ import { addDaysISO, todayISO } from "@/lib/dates";
 const NAV = [
   { href: "/", label: "Home", icon: "🏠" },
   { href: "/topics", label: "Topics", icon: "📚" },
+  { href: "/episodes", label: "Sitcom", icon: "📺" },
   { href: "/daily", label: "Daily 5", icon: "🎯" },
   { href: "/review", label: "Review", icon: "🔁" },
   { href: "/progress", label: "Progress", icon: "📈" },
@@ -73,7 +74,10 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
-          <Link href="/watch" className="chip border-brand/30 bg-brand-soft text-brand text-sm md:hidden" title="Studio Masterclasses & Beast Sitcom TV">
+          <Link href="/episodes" className="chip border-brand/30 bg-brand-soft text-brand text-sm md:hidden" title="All 12 《哎呀！一家人》 Sitcom Episodes">
+            📺 <span className="hidden sm:inline">Sitcom</span>
+          </Link>
+          <Link href="/watch" className="chip border-brand/30 bg-brand-soft text-brand text-sm md:hidden" title="Watch by topic">
             🎬 <span className="hidden sm:inline">Watch</span>
           </Link>
 
@@ -98,8 +102,11 @@ export function SiteHeader() {
             {open ? (
               <div role="menu" className="card absolute right-0 top-12 z-40 w-60 p-2 text-sm">
                 <div className="px-3 py-2 text-xs text-ink-2">{mode === "guest" ? "Guest — saved on this device only" : `${account?.name ?? ""} family`}</div>
+                <Link role="menuitem" href="/episodes" className="block rounded-lg px-3 py-2 font-bold text-brand hover:bg-surface-2">
+                  📺 《哎呀！一家人》 All Episodes
+                </Link>
                 <Link role="menuitem" href="/watch" className="block rounded-lg px-3 py-2 font-bold text-brand hover:bg-surface-2">
-                  🎬 Watch &amp; 《哎呀！一家人》
+                  🎬 Watch Hub
                 </Link>
                 <Link role="menuitem" href="/skills" className="block rounded-lg px-3 py-2 hover:bg-surface-2">
                   🧩 Skills &amp; mastery
@@ -147,9 +154,9 @@ export function MobileNav() {
 
   return (
     <nav className="no-print fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden" aria-label="Main">
-      <div className="mx-auto grid max-w-md grid-cols-5">
+      <div className="mx-auto grid max-w-md grid-cols-6">
         {NAV.map((n) => (
-          <Link key={n.href} href={n.href} className={`flex flex-col items-center gap-0.5 py-2 text-[0.7rem] font-bold ${active(path, n.href) ? "text-brand" : "text-ink-2"}`} aria-current={active(path, n.href) ? "page" : undefined}>
+          <Link key={n.href} href={n.href} className={`flex flex-col items-center gap-0.5 py-2 text-[0.65rem] font-bold ${active(path, n.href) ? "text-brand" : "text-ink-2"}`} aria-current={active(path, n.href) ? "page" : undefined}>
             <span className="text-xl" aria-hidden>
               {n.icon}
             </span>
