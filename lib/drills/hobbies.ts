@@ -540,11 +540,14 @@ export const drills: Drill[] = [
 
       const d = rng.pick(DEGREE_SKILLS);
       const enVerb = p.obj ? d.enVerb3 : d.enVerb1;
-      const prompt = `Translate into Mandarin using the **Verb + 得 (de) + 很 + Adjective** degree complement *(remember: never put 得 right after the noun ${d.obj}!)*:\n\n**"${p.en} ${enVerb} ${d.enAdv}."** *(Subject: **${p.zh}**)*`;
-      const echoZh = `${p.zh}${d.verb}${d.obj}${d.verb}得很好`.replace(/很好$/, `很${d.adj}`);
-      const frontZh = `${p.zh}${d.obj}${d.verb}得很${d.adj}`;
+      const isRun = d.obj === "步";
+      const prompt = isRun
+        ? `Translate into Mandarin using the **Verb + 得 (de) + 很 + Adjective** degree complement *(never write *跑步得很快*!)*:\n\n**"${p.en} ${enVerb} ${d.enAdv}."** *(Subject: **${p.zh}**)*`
+        : `Translate into Mandarin using the **Verb + 得 (de) + 很 + Adjective** degree complement *(remember: never put 得 right after the noun ${d.obj}!)*:\n\n**"${p.en} ${enVerb} ${d.enAdv}."** *(Subject: **${p.zh}**)*`;
+      const echoZh = `${p.zh}${d.verb}${d.obj}${d.verb}得很${d.adj}`;
+      const frontZh = isRun ? `${p.zh}${d.verb}得很${d.adj}` : `${p.zh}${d.obj}${d.verb}得很${d.adj}`;
       const echoPy = `${p.py} ${d.verbPy} ${d.objPy} ${d.verbPy} de hěn ${d.adjPy}`;
-      const frontPy = `${p.py} ${d.objPy} ${d.verbPy} de hěn ${d.adjPy}`;
+      const frontPy = isRun ? `${p.py} ${d.verbPy} de hěn ${d.adjPy}` : `${p.py} ${d.objPy} ${d.verbPy} de hěn ${d.adjPy}`;
       return {
         prompt,
         answer: {
@@ -555,13 +558,15 @@ export const drills: Drill[] = [
         traps: [
           {
             spec: { type: "text", accept: [`${p.zh}${d.verb}${d.obj}得很${d.adj}`] },
-            feedback: `得 (de) MUST attach directly to the verb ${d.verb}, never to the object ${d.obj}! Repeat ${d.verb} (${d.verb}${d.obj}${d.verb}得…) or front ${d.obj} (${d.obj}${d.verb}得…).`,
+            feedback: `得 (de) MUST attach directly to the verb ${d.verb}, never to the object ${d.obj}! Repeat ${d.verb} (${d.verb}${d.obj}${d.verb}得…) or ${isRun ? `drop 步 (${d.verb}得…)` : `front ${d.obj} (${d.obj}${d.verb}得…)`}.`,
           },
         ],
-        hint: `Either echo the verb (${p.zh}${d.verb}${d.obj}${d.verb}得很${d.adj}) or front the object (${p.zh}${d.obj}${d.verb}得很${d.adj})!`,
+        hint: isRun
+          ? `Either echo the verb (${echoZh}) or use ${d.verb} directly (${frontZh})!`
+          : `Either echo the verb (${echoZh}) or front the object (${frontZh})!`,
         solution: [
           `Method 1 (Verb echo): **${echoZh}。**`,
-          `Method 2 (Fronted object): **${frontZh}。**`,
+          isRun ? `Method 2 (Drop dummy object 步): **${frontZh}。**` : `Method 2 (Fronted object): **${frontZh}。**`,
         ],
       };
     },

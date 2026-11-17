@@ -36,6 +36,7 @@ export const morePapers: Paper[] = [
           accept: [
             "来一杯冰水",
             "请来一杯冰水",
+            "请给我来一杯冰水",
             "我要一杯冰水",
             "lái yī bēi bīngshuǐ",
             "wǒ yào yī bēi bīngshuǐ",
@@ -118,9 +119,12 @@ export const morePapers: Paper[] = [
           type: "text",
           accept: [
             "还要别的吗",
+            "您还要别的吗",
             "你们还要别的吗",
             "请问还要别的吗",
+            "还需要别的吗",
             "Hái yào bié de ma",
+            "Nín hái yào bié de ma",
           ],
           display: "还要别的吗？ (Hái yào bié de ma?)",
         },
@@ -157,9 +161,11 @@ export const morePapers: Paper[] = [
           type: "text",
           accept: [
             "我们可以扫码点菜吗",
+            "请问我们可以扫码点菜吗",
             "可以扫码点菜吗",
             "请问可以扫码点菜吗",
             "Wǒmen kěyǐ sǎomǎ diǎncài ma",
+            "Qǐngwèn wǒmen kěyǐ sǎomǎ diǎncài ma",
             "Kěyǐ sǎomǎ diǎncài ma",
           ],
           display: "我们可以扫码点菜吗？ (Wǒmen kěyǐ sǎomǎ diǎncài ma?)",
@@ -221,7 +227,7 @@ export const morePapers: Paper[] = [
         question: "Read the waiter's note for Table 6:\n**「六号桌：四位客人。一碗牛肉面（不要香菜，微辣），一盘西红柿炒鸡蛋（少放糖），一条清蒸鱼，两杯热绿茶。」**\nWhich ingredient did the guest ask to **leave out completely** from the beef noodles? Answer in **English**.",
         answer: {
           type: "text",
-          accept: ["coriander", "cilantro", "chinese parsley"],
+          accept: ["coriander", "cilantro", "chinese parsley", "fresh coriander", "fresh cilantro"],
           display: "coriander / cilantro (香菜)",
         },
         hints: [

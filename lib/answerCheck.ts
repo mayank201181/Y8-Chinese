@@ -12,11 +12,13 @@
 import type { AnswerSpec } from "./types.ts";
 import {
   canonPinyin,
+  canonPinyinFlexible,
   hasHanzi,
   hasToneMarks,
   hasToneNumbers,
   isOppositeMandarin,
   normMandarin,
+  parseChineseNumber,
   stripPinyinTones,
 } from "./chinese/pinyin.ts";
 import {
@@ -93,7 +95,8 @@ export function normText(s: string): string {
 }
 
 export function checkAnswer(spec: AnswerSpec, raw: string): CheckResult {
-  const input = (raw ?? "").trim();
+  const trimmed = (raw ?? "").trim();
+  const input = spec.type !== "text" ? trimmed.replace(/^\{\{([\s\S]+)\}\}$/, "$1").trim() : trimmed;
   if (!input) return { status: "invalid", feedback: "Type an answer first." };
   try {
     switch (spec.type) {
@@ -155,7 +158,13 @@ function checkNumber(spec: Extract<AnswerSpec, { type: "number" }>, input: strin
     }
     return { status: "incorrect" };
   }
-  const p = parseNumberAnswer(input);
+  let p = parseNumberAnswer(input);
+  if (!p && hasHanzi(input)) {
+    const cnVal = parseChineseNumber(input);
+    if (cnVal !== null && Number.isFinite(cnVal)) {
+      p = { value: cnVal, kind: Number.isInteger(cnVal) ? "integer" : "decimal" };
+    }
+  }
   if (!p) {
     // Maybe they wrote a list or an expression.
     return { status: "invalid", feedback: "Type a single number, like 12, −3.5 or 3/4." };
@@ -378,7 +387,7 @@ function checkExpression(spec: Extract<AnswerSpec, { type: "expression" }>, inpu
 
 export { normMandarin, normMandarin as normSpanish, stripPinyinTones, stripPinyinTones as stripAccents };
 
-function checkText(spec: Extract<AnswerSpec, { type: "text" }>, input: string): CheckResult {
+function checkSingleText(spec: Extract<AnswerSpec, { type: "text" }>, input: string): CheckResult {
   if (isOppositeMandarin(spec.accept, input)) {
     return { status: "incorrect", feedback: "Careful — that means the opposite!" };
   }
@@ -388,11 +397,41 @@ function checkText(spec: Extract<AnswerSpec, { type: "text" }>, input: string): 
   // 1. Exact normalised match (Simplified Hanzi, English, or spaced toned Pinyin).
   if (spec.accept.some((a) => normMandarin(a) === n)) return { status: "correct" };
 
-  // 2. Canonical toned Pinyin match (accepts tone numbers e.g. "xia4 yu3" and syllable spacing variants).
+  // 1b. Natural English "Why..." prefix ("Because ...") when English answers are accepted.
+  if (!hasHanzi(input) && !hasToneMarks(input) && n.startsWith("because ")) {
+    const strippedBecause = n.slice("because ".length).trim();
+    if (
+      strippedBecause &&
+      spec.accept.some((a) => !hasHanzi(a) && !hasToneMarks(a) && normMandarin(a) === strippedBecause)
+    ) {
+      return { status: "correct" };
+    }
+  }
+
+  // 2. Canonical toned Pinyin match (accepts tone numbers e.g. "xia4 yu3", syllable spacing variants,
+  //    citation vs sandhi tones for 一/不, and Beijing neutral vs Singapore citation tones).
   if (!hasHanzi(input)) {
+    const hasAnyHanziAccept = spec.accept.some((a) => hasHanzi(a));
+    const pinyinTargets = spec.accept.filter(
+      (a) =>
+        !hasHanzi(a) &&
+        (hasToneMarks(a) ||
+          hasToneNumbers(a) ||
+          /ü/i.test(a) ||
+          (hasAnyHanziAccept && /^(?:ma|ne|ba|le|de|zhe|guo|me)$/i.test(a.trim()))),
+    );
     const cIn = canonPinyin(input);
-    const pinyinTargets = spec.accept.filter((a) => !hasHanzi(a) && (hasToneMarks(a) || hasToneNumbers(a) || /ü/i.test(a)));
     if (cIn && pinyinTargets.some((a) => canonPinyin(a) === cIn)) {
+      return { status: "correct" };
+    }
+
+    const flexOpts = {
+      hasYi: spec.accept.some((a) => a.includes("一") || /\by[īíì]/i.test(a)),
+      hasBu: spec.accept.some((a) => a.includes("不") || /\bb[ùú]/i.test(a)),
+      hasGuo: spec.accept.some((a) => a.includes("过") && a.replace(/[^\u4e00-\u9fff]/g, "").length >= 2),
+    };
+    const flexIn = canonPinyinFlexible(input, flexOpts);
+    if (flexIn && pinyinTargets.some((a) => canonPinyinFlexible(a, flexOpts) === flexIn)) {
       return { status: "correct" };
     }
 
@@ -407,6 +446,43 @@ function checkText(spec: Extract<AnswerSpec, { type: "text" }>, input: string): 
   }
 
   return { status: "incorrect" };
+}
+
+function checkText(spec: Extract<AnswerSpec, { type: "text" }>, input: string, depth = 0): CheckResult {
+  const direct = checkSingleText(spec, input);
+  if (direct.status === "correct" || depth >= 2) return direct;
+
+  // Exact match against canonical display string if present (e.g. displayAnswer self-check).
+  if (depth === 0 && spec.display && normMandarin(input) === normMandarin(spec.display)) {
+    return { status: "correct" };
+  }
+
+  // Support bilingual "Hanzi (Pinyin)" answers (typed by diligent students or from displayAnswer)
+  // ONLY when BOTH the main answer AND the parenthetical gloss independently check as correct.
+  const parenMatch = input.match(/^(.+?)\s*[（(]([^（）()]+)[）)][.。!！?？]*$/);
+  if (parenMatch) {
+    const main = parenMatch[1].trim();
+    const gloss = parenMatch[2].split(/\s*[—–]\s*/)[0].trim();
+    if (
+      main &&
+      gloss &&
+      checkText(spec, main, depth + 1).status === "correct" &&
+      checkText(spec, gloss, depth + 1).status === "correct"
+    ) {
+      return { status: "correct" };
+    }
+  }
+
+  // Support slash-separated equivalents (e.g. "coriander / cilantro" or "十二月二十五日 / 十二月二十五号")
+  // ONLY when EVERY part independently checks as correct.
+  if (input.includes("/")) {
+    const parts = input.split(/\s*\/\s*/).map((p) => p.trim()).filter(Boolean);
+    if (parts.length >= 2 && parts.length <= 4 && parts.every((p) => checkText(spec, p, depth + 1).status === "correct")) {
+      return { status: "correct" };
+    }
+  }
+
+  return direct;
 }
 
 /** Check an answer, then (if wrong) look for a matching trap to give targeted feedback. */

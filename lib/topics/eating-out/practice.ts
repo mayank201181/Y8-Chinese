@@ -50,6 +50,7 @@ export const practice: TopicPractice = {
         accept: [
           "来一碗牛肉面",
           "请来一碗牛肉面",
+          "请给我来一碗牛肉面",
           "我要一碗牛肉面",
           "我想点一碗牛肉面",
           "lái yī wǎn niúròumiàn",
@@ -66,7 +67,7 @@ export const practice: TopicPractice = {
           feedback: "Drop **菜** from **点菜** whenever a specific dish follows!",
         },
       ],
-      hints: ["Use the ordering verb **来** + **一碗牛肉面** (*lái yī wǎn niúròumiàn*)."],
+      hints: ["Use the ordering verb **来** + **一碗牛肉面** (*yī wǎn niúròumiàn*)."],
       solution: ["**来一碗牛肉面** (*lái yī wǎn niúròumiàn*) or **我要一碗牛肉面**."],
     },
     {
@@ -246,9 +247,11 @@ export const practice: TopicPractice = {
             type: "text",
             accept: [
               "一家中餐馆",
+              "一家中餐厅",
               "一家中国饭馆",
               "一家中国餐厅",
               "yī jiā zhōngcānguǎn",
+              "yī jiā zhōngcāntīng",
               "yī jiā Zhōngguó fànguǎn",
               "yī jiā Zhōngguó cāntīng",
             ],
@@ -588,7 +591,7 @@ export const practice: TopicPractice = {
           kind: "short",
           difficulty: "warmup",
           guideRef: "entering-seating",
-          question: "Write the two-character polite phrase meaning **Welcome!** said by restaurant staff when customers enter (Hanzi or toned Pinyin — 4 characters **欢迎光临**).",
+          question: "Write the four-character polite phrase meaning **Welcome!** said by restaurant staff when customers enter (Simplified Hanzi or toned Pinyin).",
           answer: {
             type: "text",
             accept: ["欢迎光临", "huānyíng guānglín"],
@@ -619,7 +622,7 @@ export const practice: TopicPractice = {
           question: "What does **香菜** (*xiāngcài*) mean in English?",
           answer: {
             type: "text",
-            accept: ["coriander", "cilantro", "chinese parsley"],
+            accept: ["coriander", "cilantro", "chinese parsley", "fresh coriander", "fresh cilantro"],
             display: "coriander / cilantro",
           },
           hints: ["Literally 'fragrant herb/vegetable' — often topped on beef noodles unless you say **不要香菜**!"],
@@ -649,9 +652,12 @@ export const practice: TopicPractice = {
             type: "text",
             accept: [
               "有座位吗",
+              "有没有座位",
               "请问有座位吗",
+              "请问有没有座位",
               "还有座位吗",
               "yǒu zuòwèi ma",
+              "yǒu méiyǒu zuòwèi",
               "qǐngwèn yǒu zuòwèi ma",
               "hái yǒu zuòwèi ma",
             ],
@@ -733,8 +739,12 @@ export const practice: TopicPractice = {
             accept: [
               "少糖，不加冰",
               "少糖不加冰",
+              "少糖，不要冰",
+              "少糖不要冰",
+              "少糖，去冰",
               "shǎotáng, bù jiā bīng",
               "shǎo táng bù jiā bīng",
+              "shǎotáng, búyào bīng",
             ],
             display: "少糖，不加冰 (shǎotáng, bù jiā bīng)",
           },

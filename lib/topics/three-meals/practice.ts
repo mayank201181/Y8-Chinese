@@ -121,7 +121,7 @@ export const practice: TopicPractice = {
       kind: "short",
       difficulty: "core",
       guideRef: "drinks-containers",
-      question: "Fill in the missing verb (1 character in Hanzi or toned Pinyin): **晚饭妈妈做了一碗鱼汤，弟弟 ____ 了两碗汤。**",
+      question: "Fill in the missing verb (1 character in Hanzi or toned Pinyin): **晚饭妈妈做了一大锅鱼汤，弟弟 ____ 了两碗汤。**",
       answer: {
         type: "text",
         accept: ["喝", "hē"],
@@ -230,7 +230,7 @@ export const practice: TopicPractice = {
           question: "Write the Mandarin word for **cooked rice** (Simplified Hanzi or toned Pinyin).",
           answer: {
             type: "text",
-            accept: ["米饭", "mǐfàn"],
+            accept: ["米饭", "白饭", "白米饭", "mǐfàn", "báifàn"],
             display: "米饭 (mǐfàn)",
           },
           traps: [
@@ -335,8 +335,10 @@ export const practice: TopicPractice = {
             accept: [
               "我每天早上七点吃早饭",
               "每天早上七点我吃早饭",
+              "每天早上我七点吃早饭",
               "Wǒ měitiān zǎoshang qī diǎn chī zǎofàn",
               "Měitiān zǎoshang qī diǎn wǒ chī zǎofàn",
+              "Měitiān zǎoshang wǒ qī diǎn chī zǎofàn",
             ],
             display: "我每天早上七点吃早饭。",
           },

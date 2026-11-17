@@ -56,6 +56,8 @@ const GRADES = [
   { n: 10, hz: "十年级", py: "shí niánjí", en: "Year 10" },
 ] as const;
 
+const STUDENT_SUBJECTS = SUBJECTS.filter((s) => s.hz !== "爸爸" && s.hz !== "妈妈");
+
 const identityDrill: Drill = {
   id: "greetings-routine.identity-profile",
   topicId: "greetings-routine",
@@ -63,7 +65,7 @@ const identityDrill: Drill = {
   level: 1,
   guideRef: "greetings-identity",
   generate(rng: Rng, tier: 1 | 2 | 3): DrillItem {
-    const subj = rng.pick(SUBJECTS);
+    const subj = rng.pick(STUDENT_SUBJECTS);
     if (tier === 1) {
       const mode = rng.int(1, 2);
       if (mode === 1) {

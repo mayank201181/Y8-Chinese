@@ -10,7 +10,7 @@ export const practice: TopicPractice = {
       question: "Write **'autumn'** in Mandarin (2 characters):",
       answer: {
         type: "text",
-        accept: ["秋天", "qiūtiān", "qiū tiān"],
+        accept: ["秋天", "秋季", "qiūtiān", "qiū tiān", "qiūjì"],
         display: "秋天 (qiūtiān)",
       },
       traps: [
@@ -105,7 +105,7 @@ export const practice: TopicPractice = {
       kind: "short",
       difficulty: "core",
       guideRef: "clothing-chuan-dai",
-      question: "Write **'wear a hat'** in Mandarin using the accessory verb and crown classifier (4 characters: ___一___帽子):",
+      question: "Write **'wear a hat'** in Mandarin using the accessory verb and crown classifier (5 characters: **___一___帽子**):",
       answer: {
         type: "text",
         accept: ["戴一顶帽子", "dài yì dǐng màozi", "dài yīdǐng màozi"],
@@ -217,7 +217,7 @@ export const practice: TopicPractice = {
           question: "Write **'spring'** in Mandarin (2 characters):",
           answer: {
             type: "text",
-            accept: ["春天", "chūntiān", "chūn tiān"],
+            accept: ["春天", "春季", "chūntiān", "chūn tiān", "chūnjì"],
             display: "春天 (chūntiān)",
           },
           hints: ["Starts with **春** (sun **日** at the bottom) + **天**."],
@@ -231,7 +231,7 @@ export const practice: TopicPractice = {
           question: "Write **'winter'** in Mandarin (2 characters):",
           answer: {
             type: "text",
-            accept: ["冬天", "dōngtiān", "dōng tiān"],
+            accept: ["冬天", "冬季", "dōngtiān", "dōng tiān", "dōngjì"],
             display: "冬天 (dōngtiān)",
           },
           hints: ["Starts with **冬** (two ice dots **冫** at the bottom) + **天**."],
@@ -348,7 +348,7 @@ export const practice: TopicPractice = {
           kind: "short",
           difficulty: "core",
           guideRef: "clothing-chuan-dai",
-          question: "Write **'wear a jumper / woollen sweater'** in Mandarin (4 characters: 穿一___毛衣):",
+          question: "Write **'wear a jumper / woollen sweater'** in Mandarin (5 characters: **穿一___毛衣**):",
           answer: {
             type: "text",
             accept: ["穿一件毛衣", "chuān yí jiàn máoyī", "chuān yījiàn máoyī"],
@@ -466,6 +466,10 @@ export const practice: TopicPractice = {
             accept: [
               "虽然冬天很冷，但是我喜欢滑雪",
               "虽然冬天很冷，可是我喜欢滑雪",
+              "虽然冬天很冷，但是我很喜欢滑雪",
+              "虽然冬天很冷，可是我很喜欢滑雪",
+              "冬天虽然很冷，但是我喜欢滑雪",
+              "冬天虽然很冷，可是我喜欢滑雪",
               "Suīrán dōngtiān hěn lěng, dànshì wǒ xǐhuan huá xuě",
             ],
             display: "虽然冬天很冷，但是我喜欢滑雪。 (Suīrán dōngtiān hěn lěng, dànshì wǒ xǐhuan huá xuě.)",
@@ -582,7 +586,7 @@ export const practice: TopicPractice = {
           question: "Write **'summer'** in Mandarin (2 characters):",
           answer: {
             type: "text",
-            accept: ["夏天", "xiàtiān", "xià tiān"],
+            accept: ["夏天", "夏季", "xiàtiān", "xià tiān", "xiàjì"],
             display: "夏天 (xiàtiān)",
           },
           hints: ["Starts with **夏** (*xià*) + **天**."],
@@ -624,7 +628,7 @@ export const practice: TopicPractice = {
           kind: "short",
           difficulty: "core",
           guideRef: "clothing-chuan-dai",
-          question: "Translate into Mandarin: **'a red skirt'** (6 characters, using **条** and **红色的**):",
+          question: "Translate into Mandarin: **'a red skirt'** (7 characters, using **条** and **红色的**):",
           answer: {
             type: "text",
             accept: [
@@ -737,8 +741,10 @@ export const practice: TopicPractice = {
             accept: [
               "冬天我们打算去日本滑雪",
               "我们冬天打算去日本滑雪",
+              "我们打算冬天去日本滑雪",
               "Dōngtiān wǒmen dǎsuàn qù Rìběn huá xuě",
               "Wǒmen dōngtiān dǎsuàn qù Rìběn huá xuě",
+              "Wǒmen dǎsuàn dōngtiān qù Rìběn huá xuě",
             ],
             display: "冬天我们打算去日本滑雪。 (Dōngtiān wǒmen dǎsuàn qù Rìběn huá xuě.)",
           },
@@ -789,6 +795,8 @@ export const practice: TopicPractice = {
               "北京的冬天比新加坡冷得多",
               "北京冬天比新加坡冷得多",
               "北京的冬天比新加坡的冬天冷得多",
+              "北京的冬天比新加坡冷多了",
+              "北京冬天比新加坡冷多了",
               "Běijīng de dōngtiān bǐ Xīnjiāpō lěng de duō",
             ],
             display: "北京的冬天比新加坡冷得多。 (Běijīng de dōngtiān bǐ Xīnjiāpō lěng de duō.)",
@@ -810,7 +818,7 @@ export const practice: TopicPractice = {
           kind: "short",
           difficulty: "challenge",
           guideRef: "clothing-chuan-dai",
-          question: "Fix the **TWO errors** (verb + classifier) in *弟弟戴一双牛仔裤* — rewrite the corrected 7-character Mandarin sentence meaning **'My younger brother wears a pair of jeans'**:",
+          question: "Fix the **TWO errors** (verb + classifier) in *弟弟戴一双牛仔裤* — rewrite the corrected 8-character Mandarin sentence meaning **'My younger brother wears a pair of jeans'**:",
           answer: {
             type: "text",
             accept: ["弟弟穿一条牛仔裤", "Dìdi chuān yì tiáo niúzǎikù", "Dìdi chuān yī tiáo niúzǎikù"],
@@ -1003,6 +1011,10 @@ export const practice: TopicPractice = {
           "北京的气候和新加坡很不一样",
           "北京的气候跟新加坡不一样",
           "北京的气候和新加坡不一样",
+          "北京的气候跟新加坡的很不一样",
+          "北京的气候和新加坡的很不一样",
+          "北京的气候跟新加坡的不一样",
+          "北京的气候和新加坡的不一样",
           "Běijīng de qìhòu gēn Xīnjiāpō hěn bù yíyàng",
           "Běijīng de qìhòu gēn Xīnjiāpō hěn bù yīyàng",
         ],
@@ -1079,6 +1091,8 @@ export const practice: TopicPractice = {
           "北京的夏天跟新加坡一样热",
           "北京的夏天和新加坡一样热",
           "北京夏天跟新加坡一样热",
+          "北京的夏天跟新加坡的一样热",
+          "北京的夏天和新加坡的一样热",
           "北京的夏天跟新加坡的夏天一样热",
           "Běijīng de xiàtiān gēn Xīnjiāpō yíyàng rè",
           "Běijīng de xiàtiān gēn Xīnjiāpō yīyàng rè",

@@ -84,7 +84,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         difficulty: "core",
         guideRef: "er-vs-liang",
-        question: "Translate into Mandarin (Hanzi or Pinyin): **'the first lesson / Period 1'** (use **第一节课**):",
+        question: "Translate into Mandarin (Hanzi or Pinyin): **'the first lesson / Period 1'** (using ordinal prefix **第** and **节课**):",
         answer: {
           type: "text",
           accept: ["第一节课", "dì-yī jié kè", "dì yī jié kè"],

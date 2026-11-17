@@ -54,7 +54,7 @@ export const morePapers: Paper[] = [
           "Write the enthusiastic three-character Mandarin phrase meaning **'Brilliant! / That's great!'** when accepting an invitation:",
         answer: {
           type: "text",
-          accept: ["太好了", "tài hǎo le"],
+          accept: ["太好了", "太棒了", "tài hǎo le", "tài bàng le"],
           display: "太好了！ (Tài hǎo le!)",
         },
         hints: ["Uses the exclamation frame **太…了** around **好**!"],
@@ -203,7 +203,7 @@ export const morePapers: Paper[] = [
           "Fill in the missing three-character tag question meaning **'how about it?'**:\n**这个星期天我们一起去东海岸公园骑自行车，_______？**",
         answer: {
           type: "text",
-          accept: ["怎么样", "zěnmeyàng"],
+          accept: ["怎么样", "好不好", "zěnmeyàng", "hǎo bu hǎo", "hǎo bù hǎo"],
           display: "怎么样 (zěnmeyàng)",
         },
         traps: [
@@ -277,6 +277,8 @@ export const morePapers: Paper[] = [
           accept: [
             "national museum",
             "the national museum",
+            "national museum of singapore",
+            "the national museum of singapore",
             "museum",
             "the museum",
           ],

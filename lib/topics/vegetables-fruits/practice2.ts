@@ -107,10 +107,10 @@ export const morePapers: Paper[] = [
         difficulty: "core",
         guideRef: "money-weights",
         question:
-          "Convert the spoken price **十五块六** into formal **written price-tag Mandarin** using **元** and **角** (4 characters):",
+          "Convert the spoken price **十五块六** into formal **written price-tag Mandarin** using **元** and **角** (5 characters):",
         answer: {
           type: "text",
-          accept: ["十五元六角", "shíwǔ yuán liù jiǎo"],
+          accept: ["十五元六角", "15元6角", "shíwǔ yuán liù jiǎo"],
           display: "十五元六角 (shíwǔ yuán liù jiǎo)",
         },
         hints: [

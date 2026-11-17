@@ -555,7 +555,7 @@ export const vocab: VocabGroup[] = [
         pos: "noun",
         example: {
           hanzi: "前天下午下了一场大雨。",
-          pinyin: "Qiántiān xiàwǔ xià le yì chǎng dà yǔ.",
+          pinyin: "Qiántiān xiàwǔ xià le yì cháng dà yǔ.",
           en: "The day before yesterday afternoon there was a heavy downpour.",
         },
       },

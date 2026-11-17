@@ -3,9 +3,11 @@ import assert from "node:assert/strict";
 import {
   applyToneToSyllable,
   canonPinyin,
+  canonPinyinFlexible,
   isOppositeMandarin,
   normMandarin,
   numberedToTonedPinyin,
+  parseChineseNumber,
   stripPinyinTones,
 } from "../lib/chinese/pinyin.ts";
 import {
@@ -86,5 +88,65 @@ test("MEASURE_WORDS & PARTICLE_DRILL_BANK & Sprint modes self-check", () => {
       assert.ok(it.answer.length > 0);
       assert.equal(checkAnswer({ type: "text", accept: it.answer }, it.answer[0]).status, "correct");
     }
+  }
+});
+
+test("erhua tone-numbered Pinyin, 一/不 sandhi, neutral vs citation tones, and bilingual input", () => {
+  assert.equal(numberedToTonedPinyin("yi1 dianr3"), "yī diǎnr");
+  assert.equal(numberedToTonedPinyin("yi4dianr3"), "yìdiǎnr");
+  assert.equal(canonPinyinFlexible("yì bēi bīngshuǐ", { hasYi: true }), canonPinyinFlexible("yī bēi bīngshuǐ", { hasYi: true }));
+  assert.equal(canonPinyinFlexible("qǐng bú yào", { hasBu: true }), canonPinyinFlexible("qǐng bù yào", { hasBu: true }));
+  assert.equal(canonPinyinFlexible("zǎoshàng qī diǎn"), canonPinyinFlexible("zǎoshang qī diǎn"));
+  assert.equal(canonPinyinFlexible("késòu"), canonPinyinFlexible("késou"));
+
+  // Bilingual "Hanzi (Pinyin)" passes only when BOTH parts match
+  const sunny = { type: "text" as const, accept: ["晴天", "qíngtiān"] };
+  assert.equal(checkAnswer(sunny, "晴天 (qíngtiān)").status, "correct");
+  assert.equal(checkAnswer(sunny, "晴天 (yīntiān)").status, "incorrect");
+
+  // Minimal-pair & polyphone traps stay distinct (东西 dōngxi vs dōngxī; 暖和 nuǎnhuo vs *nuǎnhé*)
+  assert.notEqual(canonPinyinFlexible("dōngxī"), canonPinyinFlexible("dōngxi"));
+  assert.notEqual(checkAnswer({ type: "text", accept: ["暖和", "nuǎnhuo"] }, "nuǎnhé").status, "correct");
+});
+
+test("Chinese numerals & Mandarin units in number answers + adversarial confusable guards", () => {
+  assert.equal(parseChineseNumber("零"), 0);
+  assert.equal(parseChineseNumber("两"), 2);
+  assert.equal(parseChineseNumber("十三"), 13);
+  assert.equal(parseChineseNumber("三百四十五分钟"), 345);
+  assert.equal(parseChineseNumber("零下十三度"), -13);
+  assert.equal(parseChineseNumber("十九块五"), 19.5);
+  assert.equal(parseChineseNumber("十五元六角"), 15.6);
+
+  assert.equal(checkAnswer({ type: "number", value: 19, display: "19 元" }, "19 元").status, "correct");
+  assert.equal(checkAnswer({ type: "number", value: 42, display: "42 新币" }, "42新币").status, "correct");
+  assert.equal(checkAnswer({ type: "number", value: 6, display: "6 (六片)" }, "6 (六片)").status, "correct");
+  assert.equal(checkAnswer({ type: "number", value: 12 }, "十二片").status, "correct");
+
+  // Confusable & opposite Hanzi/Pinyin pairs must NEVER be marked correct
+  const adversarial: [string[], string][] = [
+    [["热", "rè"], "冷"],
+    [["热", "rè"], "lěng"],
+    [["贵", "guì"], "便宜"],
+    [["早饭", "zǎofàn"], "晚饭"],
+    [["穿", "chuān"], "戴"],
+    [["穿", "chuān"], "dài"],
+    [["打", "dǎ"], "踢"],
+    [["二", "èr"], "两"],
+    [["不", "bù"], "没"],
+    [["了", "le"], "过"],
+    [["买", "mǎi"], "卖"],
+    [["买", "mǎi"], "mài"],
+    [["水饺", "shuǐjiǎo"], "睡觉"],
+    [["水饺", "shuǐjiǎo"], "shuìjiào"],
+    [["妈妈", "māma"], "马"],
+    [["妈妈", "māma"], "mǎ"],
+  ];
+  for (const [acc, wrong] of adversarial) {
+    assert.notEqual(
+      checkAnswer({ type: "text", accept: acc }, wrong).status,
+      "correct",
+      `Expected "${wrong}" NOT to be marked correct for ${JSON.stringify(acc)}`,
+    );
   }
 });

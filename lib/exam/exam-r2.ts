@@ -120,12 +120,16 @@ export const paper: ExamPaper = {
         accept: [
           "我头疼",
           "我头痛",
+          "我的头疼",
+          "我的头痛",
           "头疼",
           "头痛",
           "我有一点儿头疼",
           "我很头疼",
           "我头很疼",
+          "我的头很疼",
           "wǒ tóuténg",
+          "wǒ de tóu téng",
           "wǒ tóu téng",
           "tóuténg",
           "wǒ tóutòng",
@@ -468,7 +472,7 @@ export const paper: ExamPaper = {
       question:
         "On the phone, your friend says:\n\n" +
         "> **“电影六点开始，我们差十分六点在电影院门口见面吧！”**\n\n" +
-        "What exact digital clock time is **差十分六点** (*chà shí fēn liù diǎn*)? Write it in `HH:MM` format (e.g. `5:50` or `17:50` — or write `五点五十分` in Hanzi).",
+        "What exact digital clock time is **差十分六点** (*chà shí fēn liù diǎn*)? Write it in `HH:MM` format (e.g. `7:45` or `19:45` — or write the clock time in Hanzi).",
       answer: {
         type: "text",
         accept: [
@@ -579,7 +583,7 @@ export const paper: ExamPaper = {
       guideRef: "meats-dishes",
       difficulty: "core",
       question:
-        "At Maxwell Food Centre in Singapore, a tourist asks you what local dish you are eating. Complete your sentence in Simplified Hanzi (or toned Pinyin) with Singapore's famous **Hainanese chicken rice** (**鸡饭** or **海南鸡饭**):\n\n" +
+        "At Maxwell Food Centre in Singapore, a tourist asks you what local dish you are eating. Complete your sentence in Simplified Hanzi (or toned Pinyin) with Singapore's famous **Hainanese chicken rice**:\n\n" +
         "> **这是新加坡最有名的________，既香又嫩！**",
       answer: {
         type: "text",

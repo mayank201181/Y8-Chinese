@@ -15,7 +15,7 @@ const load = async <T>(rel: string, name: string): Promise<T | undefined> => {
 
 let qs: Question[] = [];
 if (id === "exam") {
-  for (const e of ["exam-n1", "exam-c1", "exam-n2", "exam-c2"]) qs.push(...(((await load<ExamPaper>(`lib/exam/${e}.ts`, "paper"))?.questions) ?? []));
+  for (const e of ["exam-r1", "exam-w1", "exam-r2", "exam-w2"]) qs.push(...(((await load<ExamPaper>(`lib/exam/${e}.ts`, "paper"))?.questions) ?? []));
 } else {
   const practice = await load<TopicPractice>(`lib/topics/${id}/practice.ts`, "practice");
   qs = [

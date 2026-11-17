@@ -74,27 +74,38 @@ export interface ParsedNumber {
 /** A length unit squared or cubed: cm^2, cm2, m^3, units^2 (² and ³ are already ^2 and ^3). */
 const POWER_UNIT = String.raw`(?:mm|cm|dm|m|km|units?)\s*\^?\s*[23]`;
 
+/** Safe Mandarin measurement units & classifiers allowed after a numeric answer (e.g. "19 元", "42 新币", "6片", "345分钟"). */
+const CN_UNIT = String.raw`(?:个小时|个星期|摄氏度|人民币|分钟|小时|块钱|新币|公斤|口人|个人|节课|[元块毛角分度片粒岁斤克天周月年号日人口页次道份碗杯盘瓶盒本件条双只顶副把家袋串笼壶张支棵])`;
+
 /**
- * A trailing unit such as cm, cm^2, cm², m/s, km/h, g/cm³, %, °, degrees, litres.
+ * A trailing unit such as cm, cm^2, cm², m/s, km/h, g/cm³, %, °, degrees, litres, or Mandarin units (元, 新币, 片, 度…).
  * A power digit is only allowed after a length unit, so "9 or 3" and "9 x 2" are not
  * read as 9 followed by a unit.
  */
 const UNIT_TAIL = new RegExp(
-  String.raw`^\s*(?:%|°\s*[a-z]?|(?:${POWER_UNIT}|[a-z]{1,12})(?:\s*\/\s*(?:${POWER_UNIT}|[a-z]{1,5}))?)?\s*$`,
+  String.raw`^\s*(?:%|°\s*[a-z]?|${CN_UNIT}|(?:${POWER_UNIT}|[a-z]{1,12})(?:\s*\/\s*(?:${POWER_UNIT}|[a-z]{1,5}))?)?\s*$`,
   "i",
 );
 
 /**
  * Parse a single number answer such as "-2.5", "3/4", "1 3/4", "1,200",
- * "£46", "12 cm", "x = 5", "3.2 × 10^4". Returns null if it is not one number.
+ * "£46", "12 cm", "19 元", "x = 5", "3.2 × 10^4". Returns null if it is not one number.
  */
 export function parseNumberAnswer(raw: string): ParsedNumber | null {
   let s = normalizeInput(raw);
   if (!s) return null;
+  // Strip a trailing bilingual Chinese gloss like "6 (六片)" or "345 (345分钟)" when any digits inside match the main number.
+  const glossMatch = s.match(/^(-?\d+(?:\.\d+)?)\s*\(([^()]*[\u4e00-\u9fff][^()]*)\)$/);
+  if (glossMatch) {
+    const innerDigits = glossMatch[2].match(/-?\d+(?:\.\d+)?/g);
+    if (!innerDigits || (innerDigits.length === 1 && innerDigits[0] === glossMatch[1])) {
+      s = glossMatch[1];
+    }
+  }
   // Strip a leading label like "x =", "a=", "angle x =", "answer:".
   s = s.replace(/^(?:[a-z][a-z ]{0,14}?\s*=|answer\s*[:=])\s*/i, "");
   // Strip currency symbols / codes at either end.
-  s = s.replace(/^(?:s\$|sgd|us\$|[£$€¥₹])\s*/i, "").replace(/\s*(?:sgd|dollars?|pounds?)$/i, "");
+  s = s.replace(/^(?:s\$|sgd|rmb|cny|us\$|新币|人民币|[£$€¥₹])\s*/i, "").replace(/\s*(?:sgd|rmb|cny|dollars?|pounds?)$/i, "");
   s = s.trim();
   let negative = false;
   s = s.replace(/^\+\s*/, "");

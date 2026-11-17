@@ -56,7 +56,7 @@ export const morePapers: Paper[] = [
           "Type the Mandarin phrase for **'next week'** (4 characters):",
         answer: {
           type: "text",
-          accept: ["下个星期", "xià gè xīngqī"],
+          accept: ["下个星期", "下个礼拜", "xià gè xīngqī", "xià gè lǐbài"],
           display: "下个星期 (xià gè xīngqī)",
         },
         traps: [
@@ -113,10 +113,13 @@ export const morePapers: Paper[] = [
           accept: [
             "我今天已经喝了四杯水了",
             "我今天已经喝了四杯水",
+            "我今天已经喝四杯水了",
             "今天我已经喝了四杯水了",
             "今天我已经喝了四杯水",
+            "今天我已经喝四杯水了",
             "Wǒ jīntiān yǐjīng hē le sì bēi shuǐ le",
             "Wǒ jīntiān yǐjīng hē le sì bēi shuǐ",
+            "Wǒ jīntiān yǐjīng hē sì bēi shuǐ le",
           ],
           display: "我今天已经喝了四杯水了。",
         },
@@ -140,6 +143,8 @@ export const morePapers: Paper[] = [
           accept: [
             "弟弟没在睡觉",
             "弟弟没有在睡觉",
+            "弟弟现在没在睡觉",
+            "弟弟现在没有在睡觉",
             "Dìdi méi zài shuìjiào",
             "Dìdi méiyǒu zài shuìjiào",
           ],

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { MCQ, Question, ShortQ, WrittenQ } from "@/lib/types";
 import { checkWithTraps, displayAnswer, type CheckStatus } from "@/lib/answerCheck";
+import { suggestMarks } from "@/lib/writtenCheck";
 import { optionOrder } from "@/lib/optionOrder";
 import { Diagram, Rich, RichInline } from "./Rich";
 import { AnswerInput } from "./AnswerInput";
@@ -416,20 +417,7 @@ function ShortBody({ q, mode, restored, onDone, onAnswer, topicId, onNext, nextL
 }
 
 // -------------------------------------------------------------- Written
-export function suggestMarks(q: WrittenQ, text: string): boolean[] {
-  // Accent- and case-insensitive: "esta" earns the tick for "está" (the mark is self-assessed anyway).
-  const fold = (x: string) => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ");
-  const t = ` ${fold(text)} `;
-  // Short keywords ("vi", "y", "tan") must match whole words, not parts of "vivo", "hay", "también".
-  const hit = (k: string) => {
-    const f = fold(k).trim();
-    if (!f) return false;
-    if (f.length > 3) return t.includes(f);
-    const esc = f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    return new RegExp(`(^|[^a-z0-9])${esc}([^a-z0-9]|$)`).test(t);
-  };
-  return q.markScheme.map((p) => p.keywords.some((k) => k && hit(k)));
-}
+export { suggestMarks };
 
 function WrittenBody({ q, mode, restored, onDone, onAnswer, topicId, onNext, nextLabel }: QuestionCardProps & { q: WrittenQ }) {
   const [value, setValue] = useState(typeof restored?.answer === "string" ? restored.answer : "");

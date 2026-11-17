@@ -144,7 +144,7 @@ export const morePapers: Paper[] = [
         kind: "short",
         difficulty: "core",
         guideRef: "weather-activities",
-        question: "Write **'wear a raincoat'** in Mandarin using the top/coat classifier **件** (*jiàn*) (4 characters: 穿一___雨衣):",
+        question: "Write **'wear a raincoat'** in Mandarin using the top/coat classifier **件** (*jiàn*) (5 characters: **穿一___雨衣**):",
         answer: {
           type: "text",
           accept: ["穿一件雨衣", "chuān yí jiàn yǔyī", "chuān yījiàn yǔyī"],
@@ -172,8 +172,10 @@ export const morePapers: Paper[] = [
           type: "text",
           accept: [
             "如果明天刮风，我们就不去海边",
+            "如果明天刮风，我们就不去海边了",
             "Rúguǒ míngtiān guā fēng, wǒmen jiù bú qù hǎibiān",
             "Rúguǒ míngtiān guā fēng, wǒmen jiù bù qù hǎibiān",
+            "Rúguǒ míngtiān guā fēng, wǒmen jiù bú qù hǎibiān le",
           ],
           display: "如果明天刮风，我们就不去海边。 (Rúguǒ míngtiān guā fēng, wǒmen jiù bú qù hǎibiān.)",
         },
@@ -223,8 +225,12 @@ export const morePapers: Paper[] = [
           accept: [
             "今天的温度跟昨天差不多",
             "今天的气温跟昨天差不多",
+            "今天的温度跟昨天的差不多",
+            "今天的气温跟昨天的差不多",
             "Jīntiān de wēndù gēn zuótiān chàbuduō",
             "Jīntiān de qìwēn gēn zuótiān chàbuduō",
+            "Jīntiān de wēndù gēn zuótiān de chàbuduō",
+            "Jīntiān de qìwēn gēn zuótiān de chàbuduō",
           ],
           display: "今天的温度跟昨天差不多。 (Jīntiān de wēndù gēn zuótiān chàbuduō.)",
         },

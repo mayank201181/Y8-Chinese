@@ -278,11 +278,11 @@ export const paper: ExamPaper = {
       guideRef: "singapore-vs-beijing",
       difficulty: "core",
       question:
-        "Complete this negative comparison sentence in Simplified Hanzi (or toned Pinyin) meaning **'Autumn in Beijing is NOT as hot as Singapore'** using **没有** (*méiyǒu*):\n\n" +
+        "Complete this negative comparison sentence in Simplified Hanzi (or toned Pinyin) meaning **'Autumn in Beijing is NOT as hot as Singapore'** (fill in the 2-character negative comparison word):\n\n" +
         "> **北京的秋天________新加坡那么热。**",
       answer: {
         type: "text",
-        accept: ["没有", "méiyǒu"],
+        accept: ["没有", "méiyǒu", "北京的秋天没有新加坡那么热", "Běijīng de qiūtiān méiyǒu Xīnjiāpō nàme rè"],
         display: "没有 (méiyǒu)",
       },
       traps: [

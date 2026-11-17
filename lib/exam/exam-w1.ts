@@ -166,6 +166,8 @@ export const paper: ExamPaper = {
         accept: [
           "便宜一点儿",
           "便宜一点",
+          "便宜点儿",
+          "便宜点",
           "piányi yìdiǎnr",
           "piányi yīdiǎnr",
           "piányi yìdiǎn",

@@ -306,10 +306,10 @@ export const vocab: VocabGroup[] = [
       },
       {
         hanzi: "夹克",
-        pinyin: "jiākè",
+        pinyin: "jiákè",
         english: "jacket (casual / zip-up)",
         pos: "noun",
-        notes: "Phonetic loanword from English 'jacket'. Classifier: 件.",
+        notes: "Phonetic loanword from English 'jacket' (standard Putonghua jiákè; often heard as jiākè in everyday speech). Classifier: 件.",
       },
       {
         hanzi: "泳衣",

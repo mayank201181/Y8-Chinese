@@ -121,6 +121,8 @@ export const morePapers: Paper[] = [
             "i am not interested in photography at all",
             "i am not at all interested in photography",
             "im not interested in photography at all",
+            "i have no interest in photography at all",
+            "i have no interest at all in photography",
           ],
           display: "I am not interested in photography at all.",
         },
@@ -308,7 +310,7 @@ export const morePapers: Paper[] = [
           },
           {
             point: "Shares personal active + quiet hobbies with accurate collocations.",
-            keywords: ["我", "喜欢", "打", "踢", "游泳", "弹", "拉"],
+            keywords: ["我自己", "我喜欢", "最喜欢", "喜欢", "打", "踢", "游泳", "弹", "拉"],
           },
           {
             point: "Uses BOTH 不但…而且… and 对…感兴趣 accurately.",

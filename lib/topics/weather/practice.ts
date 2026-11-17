@@ -48,7 +48,7 @@ export const practice: TopicPractice = {
       question: "How do you write **'−5°C'** in Mandarin?",
       answer: {
         type: "text",
-        accept: ["零下五度", "língxià wǔ dù", "líng xià wǔ dù"],
+        accept: ["零下五度", "零下五摄氏度", "língxià wǔ dù", "líng xià wǔ dù", "língxià wǔ shèshìdù"],
         display: "零下五度 (língxià wǔ dù)",
       },
       traps: [
@@ -85,7 +85,7 @@ export const practice: TopicPractice = {
       question: "Translate into Mandarin: **'It will rain tomorrow.'**",
       answer: {
         type: "text",
-        accept: ["明天会下雨", "Míngtiān huì xià yǔ"],
+        accept: ["明天会下雨", "明天要下雨", "明天下雨", "Míngtiān huì xià yǔ", "Míngtiān yào xià yǔ"],
         display: "明天会下雨。 (Míngtiān huì xià yǔ.)",
       },
       traps: [
@@ -127,10 +127,10 @@ export const practice: TopicPractice = {
       kind: "short",
       difficulty: "core",
       guideRef: "weather-activities",
-      question: "Fill in the measure word to write **'one umbrella'** in Mandarin (3 characters: 一___雨伞):",
+      question: "Write **'one umbrella'** in Mandarin using the handle measure word (4 characters: **一___雨伞**):",
       answer: {
         type: "text",
-        accept: ["一把雨伞", "yì bǎ yǔsǎn", "yībǎ yǔsǎn"],
+        accept: ["一把雨伞", "一把伞", "yì bǎ yǔsǎn", "yībǎ yǔsǎn", "yì bǎ sǎn"],
         display: "一把雨伞 (yì bǎ yǔsǎn)",
       },
       traps: [
@@ -270,7 +270,7 @@ export const practice: TopicPractice = {
           question: "Write **'−15°C'** in Mandarin (using **零下…度**):",
           answer: {
             type: "text",
-            accept: ["零下十五度", "língxià shíwǔ dù", "líng xià shíwǔ dù"],
+            accept: ["零下十五度", "零下十五摄氏度", "língxià shíwǔ dù", "líng xià shíwǔ dù", "língxià shíwǔ shèshìdù"],
             display: "零下十五度 (língxià shíwǔ dù)",
           },
           traps: [
@@ -386,7 +386,7 @@ export const practice: TopicPractice = {
           kind: "short",
           difficulty: "core",
           guideRef: "weather-activities",
-          question: "Complete the conditional plan in Mandarin (write the missing 3 characters for *'we will go'*): **如果明天是晴天，______海边。**",
+          question: "Complete the conditional plan in Mandarin (write the missing 4 characters for *'we will go'*, using **就**): **如果明天是晴天，______海边。**",
           answer: {
             type: "text",
             accept: ["我们就去", "wǒmen jiù qù"],
@@ -411,10 +411,10 @@ export const practice: TopicPractice = {
           kind: "short",
           difficulty: "core",
           guideRef: "weather-activities",
-          question: "Translate into Mandarin: **'bring an umbrella'** (4 characters, using the handle classifier **把**):",
+          question: "Translate into Mandarin: **'bring an umbrella'** (5 characters, using **雨伞** and the handle classifier **把**):",
           answer: {
             type: "text",
-            accept: ["带一把雨伞", "dài yì bǎ yǔsǎn", "dài yībǎ yǔsǎn"],
+            accept: ["带一把雨伞", "带一把伞", "dài yì bǎ yǔsǎn", "dài yībǎ yǔsǎn", "dài yì bǎ sǎn"],
             display: "带一把雨伞 (dài yì bǎ yǔsǎn)",
           },
           traps: [
@@ -467,6 +467,8 @@ export const practice: TopicPractice = {
               "因为外面下大雨，所以我待在家",
               "因为外面下大雨，所以我待在家里",
               "因为外面下大雨，所以我在家",
+              "因为外面正在下大雨，所以我待在家",
+              "因为外面正在下大雨，所以我待在家里",
               "Yīnwèi wàimiàn xià dà yǔ, suǒyǐ wǒ dāi zài jiā",
             ],
             display: "因为外面下大雨，所以我待在家。 (Yīnwèi wàimiàn xià dà yǔ, suǒyǐ wǒ dāi zài jiā.)",
@@ -654,10 +656,10 @@ export const practice: TopicPractice = {
           kind: "short",
           difficulty: "core",
           guideRef: "time-weather-forecasts",
-          question: "Translate into Mandarin: **'It rained yesterday.'** (4 characters, using **了**.)",
+          question: "Translate into Mandarin: **'It rained yesterday.'** (5 characters, using **了**.)",
           answer: {
             type: "text",
-            accept: ["昨天下雨了", "昨天有下雨", "Zuótiān xià yǔ le"],
+            accept: ["昨天下雨了", "昨天下了雨", "昨天有下雨", "Zuótiān xià yǔ le", "Zuótiān xià le yǔ"],
             display: "昨天下雨了。 (Zuótiān xià yǔ le.)",
           },
           hints: [
@@ -676,8 +678,14 @@ export const practice: TopicPractice = {
             type: "text",
             accept: [
               "cloudy turning sunny",
+              "cloudy turning to sunny",
               "cloudy turning clear",
+              "cloudy turning to clear",
               "partly cloudy turning sunny",
+              "partly cloudy turning clear",
+              "partly cloudy becoming sunny",
+              "partly cloudy becoming clear",
+              "cloudy becoming sunny",
               "cloudy then sunny",
             ],
             display: "cloudy turning sunny",
@@ -958,7 +966,7 @@ export const practice: TopicPractice = {
         "**Multi-City Thermometer Deduction:**\nRead these four clues carefully:\n1. **新加坡今天三十一度。**\n2. **伦敦今天比新加坡低十九度。**\n3. **北京今天比伦敦低十五度。**\n4. **哈尔滨今天的气温比北京低十一度。**\n\nWhat is **北京**'s temperature today **written in Mandarin Hanzi** (using **零下…度**)?",
       answer: {
         type: "text",
-        accept: ["零下三度", "língxià sān dù", "líng xià sān dù"],
+        accept: ["零下三度", "零下三摄氏度", "língxià sān dù", "líng xià sān dù", "língxià sān shèshìdù"],
         display: "零下三度 (−3°C)",
       },
       traps: [

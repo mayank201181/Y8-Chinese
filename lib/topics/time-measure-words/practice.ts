@@ -188,7 +188,7 @@ export const practice: TopicPractice = {
       question: "Translate into Mandarin (Hanzi or Pinyin): **'this pair of shoes'** (use **这** + classifier + **鞋**):",
       answer: {
         type: "text",
-        accept: ["这双鞋", "zhè shuāng xié", "这双鞋子", "zhè shuāng xiézi"],
+        accept: ["这双鞋", "zhè shuāng xié", "zhèi shuāng xié", "这双鞋子", "zhè shuāng xiézi", "zhèi shuāng xiézi"],
         display: "这双鞋 (zhè shuāng xié)",
       },
       traps: [
@@ -300,7 +300,7 @@ export const practice: TopicPractice = {
           question: "Read: **今天是八月七号星期五，后天是新加坡国庆节。** Which day of the week is National Day? Answer in **Mandarin** (e.g. `星期一`):",
           answer: {
             type: "text",
-            accept: ["星期天", "星期日", "礼拜天", "xīngqītiān", "xīngqīrì"],
+            accept: ["星期天", "星期日", "周日", "礼拜天", "礼拜日", "xīngqītiān", "xīngqīrì", "zhōurì", "lǐbàitiān"],
             display: "星期天 / 星期日 (Sunday)",
           },
           traps: [
@@ -467,7 +467,7 @@ export const practice: TopicPractice = {
           question: "Translate into Mandarin (Hanzi or Pinyin): **'that skirt'** (use **那** + classifier + **裙子**):",
           answer: {
             type: "text",
-            accept: ["那条裙子", "nà tiáo qúnzi"],
+            accept: ["那条裙子", "nà tiáo qúnzi", "nèi tiáo qúnzi"],
             display: "那条裙子 (nà tiáo qúnzi)",
           },
           traps: [

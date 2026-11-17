@@ -55,14 +55,17 @@ export const morePapers: Paper[] = [
         kind: "short",
         difficulty: "core",
         guideRef: "clothing-chuan-dai",
-        question: "Write **'a white shirt'** in Mandarin (6 characters, using **件** and **白色的**):",
+        question: "Write **'a white shirt'** in Mandarin (7 characters, using **件** and **白色的**):",
         answer: {
           type: "text",
           accept: [
             "一件白色的衬衫",
+            "一件白色的衬衣",
             "一件白衬衫",
+            "一件白衬衣",
             "yí jiàn báisè de chènshān",
             "yījiàn báisè de chènshān",
+            "yí jiàn báisè de chènyī",
           ],
           display: "一件白色的衬衫 (yí jiàn báisè de chènshān)",
         },
@@ -155,7 +158,7 @@ export const morePapers: Paper[] = [
         question: "Translate into Mandarin: **'This jacket fits very well / is very suitable.'** → **这件外套很______。** (Fill in the 2-character adjective.)",
         answer: {
           type: "text",
-          accept: ["合适", "héshì", "hé shì"],
+          accept: ["合适", "合身", "héshì", "hé shì", "héshēn"],
           display: "合适 (héshì)",
         },
         hints: [
